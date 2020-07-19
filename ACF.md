@@ -3,10 +3,7 @@ Specificaly for use on the Advanced Computing Facility managed by the University
  1. In the repo directory,
  ```
 module load python
-aclocal
-autoconf
-autoreconf -i
-automake -a
+./bootstrap.sh
 srcdir=$PWD
  ```
 2. For building the binary,
