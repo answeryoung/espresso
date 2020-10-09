@@ -882,13 +882,13 @@ void calculate_rhomboid_dist(Particle *p1, double ppos[3], Particle *c_p, Constr
 void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint_pore *c, double *dist, double *vec)
 {
     /*
-     *   dist and vec are the outputs
+     *      dist and vec are the outputs
      *
-     * Step 1.
-     * compute the position of the partical relative to the center of the pore,
-     * a 3-vector: c_dist[3]
-     * compute the component parallel and perpendicular to the pore axis,
-   	 * a 2-vector: (double z, double r)
+     *  Step 1.
+     *  compute the position of the partical relative to the center of the pore,
+     *  a 3-vector: c_dist[3]
+     *  compute the component parallel and perpendicular to the pore axis,
+   	 *  a 2-vector: (double z, double r)
     */
 
     // c_dist[3]    cartesian vector pointing from pore center to the particle
