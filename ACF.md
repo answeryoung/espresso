@@ -45,7 +45,7 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
      *  Step 1.
      *  compute the position of the partical relative to the center of the pore,
      *  a 3-vector: c_dist[3]
-     *  compute the component parallel and perpendicular to the pore axis,
+     *  compute the component parallel and perpendicular to the pore axis, 
      *  a 2-vector: (double z, double r)
     */
 
