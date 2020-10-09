@@ -41,19 +41,19 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
 {
     /*
      *   dist and vec are the outputs
-
+     *
      * Step 1.
-   	 *   compute the position of the partical relative to the center of the pore;
-   	 *       3-vectors: c_dist[3]
-   	 *   compute the component parallel and perpendicular to the pore axis;
-   	 *       a 2-vector (double z, double r)
+     * compute the position of the partical relative to the center of the pore,
+     * a 3-vector: c_dist[3]
+     * compute the component parallel and perpendicular to the pore axis,
+   	 * a 2-vector: (double z, double r)
     */
 
     // c_dist[3]    cartesian vector pointing from pore center to the particle
     //                  c_dist[i] = ppos[i] - c->pos[i]
 
-    // z, r         c_dist in cylindrical coordinates, coordinate axis is
-    //                  the pore axis with origin at the pore center
+    // z, r         c_dist in cylindrical coordinates, the coordinate z axis is
+    //                  the pore axis with its origin at the pore center
 
     // z_vec[3], r_vec[3]  z and r in carteision system
     // e_z[3], e_r[3]      unit vectors along z and r in the carteision system
@@ -94,14 +94,15 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
      *
      *  Else, skip to Step 3.
      *
-     *  ij_z and ij_r are the z and r component of vector pointing from i to j
+     *  Note, for a vector pointing from point x to point y, xy_z and xy_r are
+     *  the z and r component of that vector.
     */
 
     if (c->smoothing_radius >= c->length) {
 
         double cm_r = 2 * c->length;
 
-        // particle is closer to the semi circle
+        // particle is closer to the semi-circle
 
         if (r < cm_r)
         {
@@ -142,12 +143,12 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
     }
 
     /** Step 3.
-     *  Identify the region relative to the pore, in that is the particle (see doc).
-     *  Then calculate *dist and vec[3].
+     *  Identify the region relative to the pore, in that is the particle.
+     *  Then calculate *dist and vec[3] (see ACF.md).
     */
 
     // tan_slope    tangent of the slope of the inner wall of the pore
-    // sec_slope    secant of the angle corresponding to slope
+    // sec_slope    secant of the angle corresponding to the slope
 
     double tan_slope = (c->rad_right - c->rad_left) / 2. / (c->length);
     double sec_slope  = sqrt(1 + tan_slope * tan_slope);
@@ -155,14 +156,15 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
     // m is the intersection angle bisectors from smoothing centers a and b
     // 0, cm_r      z and r component of vector cm in Cylindrical system
     // rad_middle   radius at the middle of the pore inner wall
-    //
-    // ij_z and ij_r are the z and r component of vector pointing from i to j
-    // by definition, c_z = 0, c_r = 0, p_z = z, and p_r = r .
+
+    // Note, for a vector pointing from point x to point y, xy_z and xy_r are
+    // the z and r component of that vector.
+    // By definition, c_z = 0, c_r = 0, p_z = z, and p_r = r .
 
     double rad_middle = (c->rad_right + c->rad_left) / 2.;
     double cm_r = rad_middle + c->length * sec_slope;
 
-    // calculate compoents of vectors ca and ap, p is the particle
+    // calculate components of vectors ca and ap, p is the particle
     // rad_middle   radius at the middle of the rhombi
 
     double ca_z = c->smoothing_radius - c->length;
@@ -254,5 +256,5 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
     }
     return;
 
-}
+} // END void calculate_pore_dist()
 ```
