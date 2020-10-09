@@ -39,10 +39,9 @@ for more details.)
 ```
 void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint_pore *c, double *dist, double *vec)
 {
-    /*
-     *      dist and vec are the outputs
-     *
-     *  Step 1.
+    //      dist and vec are the outputs
+    
+    /** Step 1.
      *  compute the position of the partical relative to the center of the pore,
      *  a 3-vector: c_dist[3]
      *  compute the component parallel and perpendicular to the pore axis, 
@@ -87,7 +86,7 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
         e_r[i]  = r_vec[i] / r;
     }
 
-    /*  Step 2.
+    /** Step 2.
      *  If c->smoothing_radius is set to be greater or equal to c->length,
      *  points a, b, m are coincident.
      *  Consider c->length as the dominating parameter for the pore.
