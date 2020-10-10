@@ -18,7 +18,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-  modified void calculate_pore_dist line 882 - 1100
+  modified void calculate_pore_dist line 882 - 1104
   DY 201008
 */
 /** \file constraint.cpp
@@ -884,7 +884,7 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
     //      dist and vec are the outputs
 
     /** Step 1.
-     *  compute the position of the partical relative to the center of the pore,
+     *  compute the position of the particle relative to the center of the pore,
      *  a 3-vector: c_dist[3]
      *  compute the component parallel and perpendicular to the pore axis,
      *  a 2-vector: (double z, double r)
@@ -893,7 +893,7 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
     // c_dist[3]    cartesian vector pointing from pore center to the particle
     //                  c_dist[i] = ppos[i] - c->pos[i]
 
-    // z, r         c_dist in cylindrical coordinates, the coordinate z axis is
+    // z, r         c_dist in cylindrical coordinates, the coordinate z-axis is
     //                  the pore axis with its origin at the pore center
 
     // z_vec[3], r_vec[3]  z and r in carteision system
@@ -906,6 +906,7 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
     double e_z[3], e_r[3];
 
     // in z direction
+
     for (i = 0; i < 3; i += 1)
     {
         c_dist[i] = ppos[i] - c->pos[i];
@@ -913,6 +914,7 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
     }
 
     // in r direction
+
     for (i = 0; i < 3; i += 1)
     {
         z_vec[i] = z * c->axis[i];
@@ -922,6 +924,7 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
     r = sqrt( r );
 
     // element 3-vectors for conversions later
+
     for (i = 0; i < 3; i += 1)
     {
         e_z[i]  = c->axis[i];
