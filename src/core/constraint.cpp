@@ -879,10 +879,14 @@ void calculate_rhomboid_dist(Particle *p1, double ppos[3], Particle *c_p, Constr
 	}
 }
 
+/** Calcutating the distance and displacement of a particle from a pore constraint.
+ *  double *dist and double *vec are the outputs.
+ *  The given partical is at double ppos[3]
+ *  The given pore constraint is passed as Constraint_pore *c
+ *  The parameters Particle *p1 and Particle *c_p are not used in this fucntion.
+ */
 void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint_pore *c, double *dist, double *vec)
 {
-    //      dist and vec are the outputs
-
     /** Step 1.
      *  compute the position of the particle relative to the center of the pore,
      *  a 3-vector: c_dist[3]
@@ -919,7 +923,7 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
     {
         z_vec[i] = z * c->axis[i];
         r_vec[i] = c_dist[i] - z_vec[i];
-        r += r_vec[i]*r_vec[i];
+        r += r_vec[i] * r_vec[i];
     }
     r = sqrt( r );
 
@@ -927,8 +931,8 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
 
     for (i = 0; i < 3; i += 1)
     {
-        e_z[i]  = c->axis[i];
-        e_r[i]  = r_vec[i] / r;
+        e_z[i] = c->axis[i];
+        e_r[i] = r_vec[i] / r;
     }
 
     /** Step 2.
@@ -936,24 +940,24 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
      *  points a, b, m are coincident.
      *  Consider c->length as the dominating parameter for the pore.
      *
-     *  Else, skip to Step 3.
+     *  Else, go to Step 3.
      *
      *  Note, for a vector pointing from point x to point y, xy_z and xy_r are
-     *  the z and r component of that vector.
+     *  the z and r components of that vector.
     */
 
     if (c->smoothing_radius >= c->length) {
 
-        double cm_r = 2 * c->length;
+        const double cm_r = 2 * c->length;
 
         // particle is closer to the semi-circle
 
         if (r < cm_r)
         {
-            double mp_r = r - cm_r;
-            double mp_norm = sqrt( mp_r * mp_r + z * z );
+            const double mp_r = r - cm_r;
+            const double mp_norm = sqrt( mp_r * mp_r + z * z );
             *dist = mp_norm - c->length; // instead of c->smoothing_radius
-            double fac = *dist / mp_norm;
+            const double fac = *dist / mp_norm;
 
             for (i = 0; i < 3; i += 1)
             {
@@ -994,8 +998,8 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
     // tan_slope    tangent of the slope of the inner wall of the pore
     // sec_slope    secant of the angle corresponding to the slope
 
-    double tan_slope = (c->rad_right - c->rad_left) / 2. / (c->length);
-    double sec_slope  = sqrt(1 + tan_slope * tan_slope);
+    const double tan_slope = (c->rad_right - c->rad_left) / 2. / (c->length);
+    const double sec_slope  = sqrt(1 + tan_slope * tan_slope);
 
     // m is the intersection angle bisectors from smoothing centers a and b
     // 0, cm_r      z and r component of vector cm in Cylindrical system
@@ -1005,29 +1009,29 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
     // the z and r component of that vector.
     // By definition, c_z = 0, c_r = 0, p_z = z, and p_r = r .
 
-    double rad_middle = (c->rad_right + c->rad_left) / 2.;
-    double cm_r = rad_middle + c->length * sec_slope;
+    const double rad_middle = (c->rad_right + c->rad_left) / 2.;
+    const double cm_r = rad_middle + c->length * sec_slope;
 
     // calculate components of vectors ca and ap, p is the particle
     // rad_middle   radius at the middle of the rhombi
 
-    double ca_z = c->smoothing_radius - c->length;
-    double ca_r = c->rad_left + c->smoothing_radius * (sec_slope + tan_slope);
-    double ap_z = z - ca_z;
-    double ap_r = r - ca_r;
+    const double ca_z = c->smoothing_radius - c->length;
+    const double ca_r = c->rad_left + c->smoothing_radius * (sec_slope + tan_slope);
+    const double ap_z = z - ca_z;
+    const double ap_r = r - ca_r;
 
-    double tan_am = (ca_r - cm_r) / ca_z;
-    double tan_ap = ap_r / ap_z;
+    const double tan_am = (ca_r - cm_r) / ca_z;
+    const double tan_ap = ap_r / ap_z;
 
     // for the right side
 
-    double cb_z = c->length - c->smoothing_radius;
-    double cb_r = c->rad_right + c->smoothing_radius * (sec_slope - tan_slope);
-    double bp_z = z - cb_z;
-    double bp_r = r - cb_r;
+    const double cb_z = c->length - c->smoothing_radius;
+    const double cb_r = c->rad_right + c->smoothing_radius * (sec_slope - tan_slope);
+    const double bp_z = z - cb_z;
+    const double bp_r = r - cb_r;
 
-    double tan_bm = (cb_r - cm_r) / cb_z;
-    double tan_bp = bp_r / bp_z;
+    const double tan_bm = (cb_r - cm_r) / cb_z;
+    const double tan_bp = bp_r / bp_z;
 
     // left wall region (region 1 in the doc)
 
@@ -1089,8 +1093,8 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
 
     // inside the pore (region else in the doc)
 
-    double sin_slope = tan_slope / sec_slope;
-    double cos_slope = 1. / sec_slope;
+    const double sin_slope = tan_slope / sec_slope;
+    const double cos_slope = 1. / sec_slope;
 
     *dist = (tan_slope * z - r + rad_middle) * cos_slope;
 
