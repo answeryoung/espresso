@@ -1051,9 +1051,9 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
 
     if ((ap_r < 0) && ((1. / tan_ap) >= - tan_slope))
     {
-        double ap_norm = sqrt(ap_z * ap_z + ap_r * ap_r);
+        const double ap_norm = sqrt(ap_z * ap_z + ap_r * ap_r);
         *dist = ap_norm - c->smoothing_radius;
-        double fac = *dist / ap_norm;
+        const double fac = *dist / ap_norm;
 
         for (i = 0; i < 3; i += 1)
         {
@@ -1080,9 +1080,9 @@ void calculate_pore_dist(Particle *p1, double ppos[3], Particle *c_p, Constraint
 
     if ((bp_r < 0) && ((1. / tan_bp) <= - tan_slope))
     {
-        double bp_norm = sqrt(bp_z * bp_z + bp_r * bp_r);
+        const double bp_norm = sqrt(bp_z * bp_z + bp_r * bp_r);
         *dist = bp_norm - c->smoothing_radius;
-        double fac = *dist / bp_norm;
+        const double fac = *dist / bp_norm;
 
         for (i = 0; i < 3; i += 1)
         {
